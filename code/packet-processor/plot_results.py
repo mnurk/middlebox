@@ -1,41 +1,72 @@
 import json
 import matplotlib.pyplot as plt
-import os
 
-def plot_results():
-    output_dir = "plots"
-    os.makedirs(output_dir, exist_ok=True)
+# Load results.json
+with open("results.json", "r") as f:
+    results = json.load(f)
 
-    with open("results.json", "r") as f:
-        results = json.load(f)
-        delays = results["delays"]
-        rtts = results["rtts"]
+# Retrieve data from the results dictionary
+rtts = results.get("rtts", [])
+delays = results.get("delays", [])
+rtt_avg = results.get("rtt_avg", 0)
+rtt_ci_95 = results.get("rtt_ci_95", 0)
+delay_avg = results.get("delay_avg", 0)
+delay_ci_95 = results.get("delay_ci_95", 0)
+covert_capacity = results.get("covert_channel_capacity_bps", 0)
 
-    mean_delay = sum(delays) / len(delays) if delays else 0
-    print(f"Mean delay: {mean_delay}")
+# Convert units for plotting:
+# RTT in milliseconds, Delay in microseconds
+rtts_ms = [r * 1000 for r in rtts]
+delays_us = [d * 1e6 for d in delays]
 
-    average_rtt = sum(rtts) / len(rtts) if rtts else 0
-    print(f"Average RTT: {average_rtt}")
+# Plot 1: RTT vs. Packet Index
+plt.figure(figsize=(10, 4))
+plt.plot(rtts_ms, marker='o', linestyle='-', color='blue', markersize=2)
+plt.title("RTT per Packet")
+plt.xlabel("Packet Index")
+plt.ylabel("RTT (ms)")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("rtt_vs_index.png")
+plt.close()
 
-    plt.figure()
-    plt.plot(range(len(delays)), delays, 'bo')
-    plt.xlabel('Packet Index')
-    plt.ylabel('Delay (s)')
-    plt.title('Mean Delay for Packets')
-    plt.grid(True)
-    mean_delay_path = os.path.join(output_dir, 'mean_delay.png')
-    plt.savefig(mean_delay_path)
-    print(f"Mean delay plot saved to {mean_delay_path}")
+# Plot 2: Random Delay vs. Packet Index
+plt.figure(figsize=(10, 4))
+plt.plot(delays_us, marker='o', linestyle='-', color='green', markersize=2)
+plt.title("Random Delay per Packet")
+plt.xlabel("Packet Index")
+plt.ylabel("Delay (µs)")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("delay_vs_index.png")
+plt.close()
 
-    plt.figure()
-    plt.plot(range(len(rtts)), rtts, 'ro')
-    plt.xlabel('Packet Index')
-    plt.ylabel('RTT (s)')
-    plt.title('Average RTT for Packets')
-    plt.grid(True)
-    average_rtt_path = os.path.join(output_dir, 'average_rtt.png')
-    plt.savefig(average_rtt_path)
-    print(f"Average RTT plot saved to {average_rtt_path}")
+# Plot 3: Histogram of RTT
+plt.figure(figsize=(10, 4))
+plt.hist(rtts_ms, bins=30, color='blue', alpha=0.7)
+plt.title("Histogram of RTT")
+plt.xlabel("RTT (ms)")
+plt.ylabel("Frequency")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("rtt_histogram.png")
+plt.close()
 
-if __name__ == "__main__":
-    plot_results()
+# Plot 4: Histogram of Random Delays
+plt.figure(figsize=(10, 4))
+plt.hist(delays_us, bins=30, color='green', alpha=0.7)
+plt.title("Histogram of Random Delays")
+plt.xlabel("Delay (µs)")
+plt.ylabel("Frequency")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("delay_histogram.png")
+plt.close()
+
+# Print summary statistics
+print("Summary Statistics:")
+print(f"RTT Average: {rtt_avg * 1000:.3f} ms")
+print(f"RTT 95% Confidence Interval: {rtt_ci_95 * 1000:.3f} ms")
+print(f"Delay Average: {delay_avg * 1e6:.3f} µs")
+print(f"Delay 95% Confidence Interval: {delay_ci_95 * 1e6:.3f} µs")
+print(f"Covert Channel Capacity: {covert_capacity:.3f} bps")
