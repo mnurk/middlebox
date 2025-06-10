@@ -99,10 +99,78 @@ class CovertChannelDetector:
             'false_negatives': fn
         }
 
+class Mitigator:
+    def __init__(self, strip_options=True, add_delay=True, drop_suspicious=False):
+        self.strip_options = strip_options
+        self.add_delay = add_delay
+        self.drop_suspicious = drop_suspicious
+        self.mitigation_stats = {
+            'packets_processed': 0,
+            'packets_stripped': 0,
+            'packets_delayed': 0,
+            'packets_dropped': 0,
+            'total_delay_added': 0.0
+        }
+        print("Mitigator initialized")
+        
+    def mitigate_packet(self, packet):
+        """Apply mitigation strategies to the packet"""
+        self.mitigation_stats['packets_processed'] += 1
+        
+        if not packet.haslayer(IP):
+            return packet, False
+            
+        ip_layer = packet[IP]
+        should_drop = False
+        
+        # Strip IP options
+        if self.strip_options and hasattr(ip_layer, 'options'):
+            if ip_layer.options:
+                self.mitigation_stats['packets_stripped'] += 1
+                ip_layer.options = []
+                ip_layer.len = None
+                ip_layer.chksum = None
+                packet[IP] = ip_layer
+                
+        # Add random delay to break timing patterns
+        if self.add_delay:
+            self.mitigation_stats['packets_delayed'] += 1
+            delay = random.uniform(0.001, 0.005)  # 1-5ms random delay
+            self.mitigation_stats['total_delay_added'] += delay
+            time.sleep(delay)
+            
+        # Drop suspicious packets
+        if self.drop_suspicious:
+            # Check for suspicious patterns (e.g., very regular timing)
+            if hasattr(ip_layer, 'options') and ip_layer.options:
+                for option in ip_layer.options:
+                    if isinstance(option, IPOption) and option.option == 68:
+                        should_drop = True
+                        self.mitigation_stats['packets_dropped'] += 1
+                        break
+                        
+        return packet, should_drop
+        
+    def get_stats(self):
+        """Get mitigation statistics"""
+        stats = self.mitigation_stats.copy()
+        if stats['packets_processed'] > 0:
+            stats['avg_delay_per_packet'] = stats['total_delay_added'] / stats['packets_processed']
+        else:
+            stats['avg_delay_per_packet'] = 0
+        return stats
+
 delays = []
 rtts = []
 covert_log = []
 detector = CovertChannelDetector()
+
+# Initialize mitigator
+mitigator = Mitigator(
+    strip_options=os.getenv("MITIGATE_STRIP_OPTIONS", "1") == "1",
+    add_delay=os.getenv("MITIGATE_ADD_DELAY", "1") == "1",
+    drop_suspicious=os.getenv("MITIGATE_DROP_SUSPICIOUS", "0") == "1"
+)
 
 ENABLE_COVERT = os.getenv("ENABLE_COVERT", "0") == "1"
 COVERT_MESSAGE = os.getenv("COVERT_MESSAGE", "HELLO")
@@ -189,6 +257,12 @@ async def run():
                 except Exception as e:
                     print("Covert injection error:", e)
 
+            # Apply mitigation
+            packet, should_drop = mitigator.mitigate_packet(packet)
+            if should_drop:
+                print("Packet dropped due to suspicious content")
+                return
+                
             ip_detection = detector.detect_ip_option(packet)
             timing_detection = detector.detect_timing_pattern(packet, receive_time)
             is_detected = ip_detection or timing_detection
@@ -233,6 +307,7 @@ def save_logs():
     delay_stats = calculate_statistics(delays)
     channel_capacity = calculate_channel_capacity() if ENABLE_COVERT else 0
     detection_metrics = detector.calculate_metrics()
+    mitigation_stats = mitigator.get_stats()
 
     results = {
         "rtts": rtts,
@@ -242,7 +317,8 @@ def save_logs():
         "delay_avg": delay_stats["avg"],
         "delay_ci_95": delay_stats["ci_95"],
         "covert_channel_capacity_bps": channel_capacity,
-        "detection_metrics": detection_metrics
+        "detection_metrics": detection_metrics,
+        "mitigation_stats": mitigation_stats
     }
 
     with open("results.json", "w") as f:
