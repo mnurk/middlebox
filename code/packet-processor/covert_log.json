@@ -1,37 +1,198 @@
 [
   {
+    "char": "W",
+    "ascii": 87,
+    "ts_value": 1459617792,
+    "index": 1,
+    "timestamp": 1749572217.1699102
+  },
+  {
     "char": "H",
     "ascii": 72,
     "ts_value": 1207959552,
-    "index": 1,
-    "timestamp": 1744573282.3935654
+    "index": 2,
+    "timestamp": 1749572218.2068186
+  },
+  {
+    "char": "A",
+    "ascii": 65,
+    "ts_value": 1090519040,
+    "index": 3,
+    "timestamp": 1749572219.246836
+  },
+  {
+    "char": "T",
+    "ascii": 84,
+    "ts_value": 1409286144,
+    "index": 4,
+    "timestamp": 1749572220.2869203
+  },
+  {
+    "char": "I",
+    "ascii": 73,
+    "ts_value": 1224736768,
+    "index": 5,
+    "timestamp": 1749572221.3272996
+  },
+  {
+    "char": "S",
+    "ascii": 83,
+    "ts_value": 1392508928,
+    "index": 6,
+    "timestamp": 1749572222.3674693
+  },
+  {
+    "char": "T",
+    "ascii": 84,
+    "ts_value": 1409286144,
+    "index": 7,
+    "timestamp": 1749572223.4071722
+  },
+  {
+    "char": "H",
+    "ascii": 72,
+    "ts_value": 1207959552,
+    "index": 8,
+    "timestamp": 1749572224.4568515
+  },
+  {
+    "char": "I",
+    "ascii": 73,
+    "ts_value": 1224736768,
+    "index": 9,
+    "timestamp": 1749572225.486697
+  },
+  {
+    "char": "S",
+    "ascii": 83,
+    "ts_value": 1392508928,
+    "index": 10,
+    "timestamp": 1749572226.5269542
+  },
+  {
+    "char": "M",
+    "ascii": 77,
+    "ts_value": 1291845632,
+    "index": 11,
+    "timestamp": 1749572227.5769181
   },
   {
     "char": "E",
     "ascii": 69,
     "ts_value": 1157627904,
-    "index": 2,
-    "timestamp": 1744573282.7184324
+    "index": 12,
+    "timestamp": 1749572228.6072311
   },
   {
-    "char": "L",
-    "ascii": 76,
-    "ts_value": 1275068416,
-    "index": 3,
-    "timestamp": 1744573283.432527
+    "char": "S",
+    "ascii": 83,
+    "ts_value": 1392508928,
+    "index": 13,
+    "timestamp": 1749572229.6469789
   },
   {
-    "char": "L",
-    "ascii": 76,
-    "ts_value": 1275068416,
-    "index": 4,
-    "timestamp": 1744573283.7577286
+    "char": "S",
+    "ascii": 83,
+    "ts_value": 1392508928,
+    "index": 14,
+    "timestamp": 1749572230.6873822
   },
   {
-    "char": "O",
-    "ascii": 79,
-    "ts_value": 1325400064,
-    "index": 5,
-    "timestamp": 1744573284.4817734
+    "char": "A",
+    "ascii": 65,
+    "ts_value": 1090519040,
+    "index": 15,
+    "timestamp": 1749572233.2720258
+  },
+  {
+    "char": "G",
+    "ascii": 71,
+    "ts_value": 1191182336,
+    "index": 16,
+    "timestamp": 1749572234.311803
+  },
+  {
+    "char": "E",
+    "ascii": 69,
+    "ts_value": 1157627904,
+    "index": 17,
+    "timestamp": 1749572235.3518445
+  },
+  {
+    "char": "?",
+    "ascii": 63,
+    "ts_value": 1056964608,
+    "index": 18,
+    "timestamp": 1749572236.3918283
+  },
+  {
+    "char": " ",
+    "ascii": 32,
+    "ts_value": 536870912,
+    "index": 19,
+    "timestamp": 1749572237.4342153
+  },
+  {
+    "char": "A",
+    "ascii": 65,
+    "ts_value": 1090519040,
+    "index": 20,
+    "timestamp": 1749572238.47171
+  },
+  {
+    "char": "N",
+    "ascii": 78,
+    "ts_value": 1308622848,
+    "index": 21,
+    "timestamp": 1749572239.511776
+  },
+  {
+    "char": "Y",
+    "ascii": 89,
+    "ts_value": 1493172224,
+    "index": 22,
+    "timestamp": 1749572240.5534678
+  },
+  {
+    "char": "G",
+    "ascii": 71,
+    "ts_value": 1191182336,
+    "index": 23,
+    "timestamp": 1749572241.5929725
+  },
+  {
+    "char": "U",
+    "ascii": 85,
+    "ts_value": 1426063360,
+    "index": 24,
+    "timestamp": 1749572242.6323924
+  },
+  {
+    "char": "E",
+    "ascii": 69,
+    "ts_value": 1157627904,
+    "index": 25,
+    "timestamp": 1749572243.671979
+  },
+  {
+    "char": "S",
+    "ascii": 83,
+    "ts_value": 1392508928,
+    "index": 26,
+    "timestamp": 1749572244.7121787
+  },
+  {
+    "char": "S",
+    "ascii": 83,
+    "ts_value": 1392508928,
+    "index": 27,
+    "timestamp": 1749572245.752696
+  },
+  {
+    "char": "?",
+    "ascii": 63,
+    "ts_value": 1056964608,
+    "index": 28,
+    "timestamp": 1749572246.7917938
   }
 ]
